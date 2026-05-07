@@ -43,4 +43,6 @@ python -m uvicorn app.main:app --reload
 docker compose up -d postgres minio minio-init
 ```
 
-The API is currently contract-first and memory-backed. The next implementation pass should replace the in-memory store with PostgreSQL persistence and wire uploaded assets into MinIO.
+The API is currently contract-first and memory-backed. The next implementation pass should replace the in-memory store with PostgreSQL persistence and wire uploaded assets into a real storage backend. Local development can keep using MinIO; the deployment blueprint targets Supabase Storage for production.
+
+See `DEPLOYMENT.md` for the GitHub Pages + Cloud Run + Supabase deployment blueprint.

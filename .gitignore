@@ -8,3 +8,4 @@ backend/.mypy_cache/
 Thumbs.db
 *.env
 *.pyc
+DEPLOYMENT.md
