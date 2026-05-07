@@ -1,30 +1,29 @@
-import { useAuth } from '../features/auth/AuthProvider';
+import { useAuth } from "../features/auth/AuthProvider";
 
 interface TopBarProps {
   currentMapTitle: string;
-  dataSource: 'loading' | 'api' | 'fallback';
+  dataSource: "loading" | "api" | "fallback";
   onLoginRequest: () => void;
 }
 
-export function TopBar({ currentMapTitle, dataSource, onLoginRequest }: TopBarProps) {
+export function TopBar({ currentMapTitle, onLoginRequest }: TopBarProps) {
   const { isAdmin, logout } = useAuth();
-
-  const sourceLabel =
-    dataSource === 'api' ? 'API connected' : dataSource === 'loading' ? 'Loading maps' : 'Sample data';
 
   return (
     <header className="topbar d-flex align-items-center justify-content-between border-bottom border-secondary-subtle px-4 py-3">
       <div>
-        <p className="eyebrow mb-1 text-uppercase text-secondary">BGA Cartography</p>
+        <p className="eyebrow mb-1 text-uppercase text-secondary">
+          BGA Cartography
+        </p>
         <h1 className="h4 mb-0">{currentMapTitle}</h1>
       </div>
       <div className="d-flex align-items-center gap-3">
-        <span className="badge text-bg-secondary">Public access enabled</span>
-        <span className={`badge ${dataSource === 'api' ? 'text-bg-info' : 'text-bg-dark border border-secondary-subtle'}`}>
-          {sourceLabel}
-        </span>
-        <button className="btn btn-outline-light" type="button" onClick={isAdmin ? logout : onLoginRequest}>
-          {isAdmin ? 'Log Out' : 'Admin Login'}
+        <button
+          className="btn btn-outline-light"
+          type="button"
+          onClick={isAdmin ? logout : onLoginRequest}
+        >
+          {isAdmin ? "Log Out" : "Admin Login"}
         </button>
       </div>
     </header>
