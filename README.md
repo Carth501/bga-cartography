@@ -19,6 +19,7 @@ npm run dev
 ## Backend
 
 1. Create `backend/.env` from `backend/.env.example`.
+   `CORS_ORIGINS` can be a single URL or a comma-separated list.
 2. Create and activate a Python 3.11+ virtual environment, then install the backend package and its dependencies from `backend/pyproject.toml`:
 
 ```powershell
@@ -33,7 +34,7 @@ python -m pip install -e .
 
 ```powershell
 Set-Location backend
-uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload
 ```
 
 ## Infrastructure

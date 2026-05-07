@@ -1,4 +1,5 @@
 from functools import lru_cache
+import json
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -9,11 +10,25 @@ class Settings(BaseSettings):
 
     app_name: str = Field(default="BGA Cartography API", alias="APP_NAME")
     app_env: str = Field(default="development", alias="APP_ENV")
-    cors_origins: list[str] = Field(default=["http://localhost:5173"], alias="CORS_ORIGINS")
+    cors_origins_raw: str = Field(default="http://localhost:5173", alias="CORS_ORIGINS")
     admin_username: str = Field(default="admin", alias="ADMIN_USERNAME")
     admin_password: str = Field(default="change-me", alias="ADMIN_PASSWORD")
     public_asset_base_url: str = Field(default="http://localhost:9000/maps", alias="PUBLIC_ASSET_BASE_URL")
     max_upload_bytes: int = Field(default=5 * 1024 * 1024, alias="MAX_UPLOAD_BYTES")
+
+    @property
+    def cors_origins(self) -> list[str]:
+        raw_value = self.cors_origins_raw.strip()
+        if not raw_value:
+            return []
+
+        if raw_value.startswith("["):
+            parsed = json.loads(raw_value)
+            if not isinstance(parsed, list) or not all(isinstance(item, str) for item in parsed):
+                raise ValueError("CORS_ORIGINS JSON values must be a list of strings")
+            return parsed
+
+        return [origin.strip() for origin in raw_value.split(",") if origin.strip()]
 
 
 @lru_cache
