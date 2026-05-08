@@ -2,7 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 
 import { MapSidebar } from "../../components/MapSidebar";
 import { TopBar } from "../../components/TopBar";
-import { fetchMapPins, fetchMaps, fetchMapTimeline } from "../../services/api";
+import {
+  fetchMapPins,
+  fetchMaps,
+  fetchMapTimeline,
+  getDiscordWidget,
+} from "../../services/api";
 import type { MapPin, TimelineEvent } from "../../types/models";
 import { LoginModal } from "../auth/LoginModal";
 import { TimelinePanel } from "../timeline/TimelinePanel";
@@ -39,6 +44,18 @@ export function MapWorkspace() {
 
   useEffect(() => {
     let cancelled = false;
+
+    void getDiscordWidget()
+      .then((widget) => {
+        if (!cancelled) {
+          console.log(widget);
+        }
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          console.warn("Discord widget fetch failed", error);
+        }
+      });
 
     async function loadMaps() {
       try {

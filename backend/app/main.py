@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.admin.auth import router as admin_auth_router
 from app.api.admin.maps import router as admin_maps_router
+from app.api.public.discord import router as public_discord_router
 from app.api.public.maps import router as public_maps_router
 from app.core.config import get_settings
 
@@ -18,6 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(public_discord_router)
 app.include_router(public_maps_router)
 app.include_router(admin_auth_router)
 app.include_router(admin_maps_router)

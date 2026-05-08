@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     cors_origins_raw: str = Field(default="http://localhost:5173", alias="CORS_ORIGINS")
     admin_username: str = Field(default="admin", alias="ADMIN_USERNAME")
     admin_password: str = Field(default="change-me", alias="ADMIN_PASSWORD")
+    discord_guild_id: str = Field(default="1464369130810642519", alias="DISCORD_GUILD_ID")
+    discord_widget_timeout_seconds: int = Field(default=5, alias="DISCORD_WIDGET_TIMEOUT_SECONDS")
     public_asset_base_url: str = Field(default="http://localhost:9000/maps", alias="PUBLIC_ASSET_BASE_URL")
     max_upload_bytes: int = Field(default=5 * 1024 * 1024, alias="MAX_UPLOAD_BYTES")
 

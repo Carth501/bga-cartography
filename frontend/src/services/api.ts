@@ -1,4 +1,4 @@
-import type { MapPin, MapSummary, TimelineEvent } from '../types/models';
+import type { MapPin, MapSummary, TimelineEvent } from "../types/models";
 
 interface ApiMapAsset {
   id: string;
@@ -40,12 +40,43 @@ interface LoginResponse {
   access_token: string;
 }
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000/api';
+interface DiscordWidgetChannel {
+  id: string;
+  name: string;
+  position: number;
+}
+
+interface DiscordWidgetMember {
+  id: string;
+  username: string;
+  discriminator: string;
+  avatar: string | null;
+  status: string;
+  avatar_url?: string;
+  channel_id?: string | null;
+  mute?: boolean;
+  deaf?: boolean;
+  suppress?: boolean;
+  self_mute?: boolean;
+  self_deaf?: boolean;
+}
+
+export interface DiscordWidget {
+  id: string;
+  name: string;
+  instant_invite: string | null;
+  channels: DiscordWidgetChannel[];
+  members: DiscordWidgetMember[];
+  presence_count: number;
+}
+
+const apiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000/api";
 
 async function requestJson<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${apiBaseUrl}${path}`, {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...init?.headers,
     },
     ...init,
@@ -106,7 +137,7 @@ function timelineEventFromApi(payload: ApiTimelineEvent): TimelineEvent {
 }
 
 export async function fetchMaps(): Promise<MapSummary[]> {
-  const payload = await requestJson<ApiMapSummary[]>('/maps');
+  const payload = await requestJson<ApiMapSummary[]>("/maps");
   return payload.map(mapSummaryFromApi);
 }
 
@@ -115,16 +146,27 @@ export async function fetchMapPins(mapId: string): Promise<MapPin[]> {
   return payload.map(pinFromApi);
 }
 
-export async function fetchMapTimeline(mapId: string): Promise<TimelineEvent[]> {
-  const payload = await requestJson<ApiTimelineEvent[]>(`/maps/${mapId}/timeline`);
+export async function fetchMapTimeline(
+  mapId: string,
+): Promise<TimelineEvent[]> {
+  const payload = await requestJson<ApiTimelineEvent[]>(
+    `/maps/${mapId}/timeline`,
+  );
   return payload.map(timelineEventFromApi);
 }
 
-export async function loginAdmin(username: string, password: string): Promise<string> {
-  const payload = await requestJson<LoginResponse>('/admin/login', {
-    method: 'POST',
+export async function loginAdmin(
+  username: string,
+  password: string,
+): Promise<string> {
+  const payload = await requestJson<LoginResponse>("/admin/login", {
+    method: "POST",
     body: JSON.stringify({ username, password }),
   });
 
   return payload.access_token;
+}
+
+export async function getDiscordWidget(): Promise<DiscordWidget> {
+  return requestJson<DiscordWidget>("/discord/widget");
 }
