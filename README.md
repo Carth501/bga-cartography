@@ -49,5 +49,12 @@ See `DEPLOYMENT.md` for the GitHub Pages + Cloud Run + Supabase deployment bluep
 
 ## TODO
 
--Add a discord link, let the user hide it.
--Add a cookie to remember if the discord link has been hidden.
+- Add a discord link, let the user hide it.
+- Add a cookie to remember if the discord link has been hidden.
+- Stop hard-coding data into the front-end. Pull data from supabase.
+- Connect to a backend, hosted elsewhere.
+
+### Wishlist items:
+
+- Collaborative operations planning mode. Requires Websocket connections, invite management, general user accounts, account management, and lots more.
+- Individual ops URL linking.
